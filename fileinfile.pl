@@ -5,22 +5,22 @@
 use strict;
 use warnings;
 
-my $filename = shift or die "
+my $filelist_name = shift or die "
 Usage:   $0 file_to_search.txt [list_of_file_names]
 Example: $0 filelist.txt `find . -type f` |grep found\$
 Example: $0 filelist.txt `find . -type f` |grep missing\$
 ";
 
-open my $infile, '<', $filename or die "Error opening file '$filename'";
-my @lines  = <$infile>; # slurp all lines into array of lines
-my $line_str = join("", @lines);
+open my $infile, '<', $filelist_name or die "Error opening file '$filelist_name'";
+my @entire_filelist  = <$infile>; # slurp all lines into array of lines
+my $entire_filelist_str = join("", @entire_filelist);
 close $infile;
 
-foreach my $file (@ARGV) {
-  if ($line_str =~ /$file/) {
-    print "found $file\n";
+foreach my $filename (@ARGV) {
+  if ($entire_filelist_str =~ /$filename/) {
+    print "found $filename\n";
   } else {
-    print "missing $file\n";
+    print "missing $filename\n";
   }
 }
 
